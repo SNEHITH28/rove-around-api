@@ -1,8 +1,6 @@
 package com.rovearound.tripplanner.entities;
 
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,11 +17,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Traveler {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-    private int userId;
-    private int tripId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    // Ref: travelers.userId > users.id // many-to-one
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    // Ref: travelers.tripId > trips.id // many-to-one
+    @ManyToOne
+    @JoinColumn(name = "tripId")
+    private Trip trip;
+
     private boolean status;
 }

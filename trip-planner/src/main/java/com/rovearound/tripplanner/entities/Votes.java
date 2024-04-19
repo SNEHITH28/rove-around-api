@@ -12,19 +12,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="budget")
+@Table(name = "votes")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Budget {
+public class Votes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    // Ref: budget.trip_id > trips.id
+    // Ref: votes.locationId > location.id // many-to-one
     @ManyToOne
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
+    @JoinColumn(name = "locationId")
+    private Location location;
 
-    private float amount;
+    // Ref: votes.userId > users.id // many-to-one
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    private boolean vote;
 }

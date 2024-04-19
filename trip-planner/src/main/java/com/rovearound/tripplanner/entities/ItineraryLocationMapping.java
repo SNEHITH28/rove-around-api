@@ -12,19 +12,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="budget")
+@Table(name="itinerary_location_mapping")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Budget {
+public class ItineraryLocationMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    // Ref: budget.trip_id > trips.id
+    // Ref: itinerary_location_mapping.location_id > location.id // many-to-one
     @ManyToOne
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
+    @JoinColumn(name = "location_id")
+    private Location location;
 
-    private float amount;
+    // Ref: itinerary_location_mapping.itinerary_id > itinerary.id // many-to-one
+    @ManyToOne
+    @JoinColumn(name = "itinerary_id")
+    private Itinerary itinerary;
 }
