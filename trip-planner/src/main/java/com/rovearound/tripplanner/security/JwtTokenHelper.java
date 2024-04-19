@@ -53,7 +53,6 @@ public class JwtTokenHelper {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         String result = doGenerateToken(claims, userDetails.getUsername());
-        System.out.println("token generated ravi " + result);
         return result;
     }
 

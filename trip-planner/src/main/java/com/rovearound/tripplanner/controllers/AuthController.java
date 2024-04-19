@@ -54,7 +54,6 @@ public class AuthController {
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
 		this.authenticate(request.getEmail(), request.getPassword());
 		UserDetails userDetails = this.secureUserService.loadUserByUsername(request.getEmail());
-		System.out.println("test" + userDetails.getUsername());
 		String token = this.jwtTokenHelper.generateToken(userDetails);
 
 		JwtAuthResponse response = new JwtAuthResponse();
