@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class TripDto {
 	private int id;
-	private User userId;
+	private User user;
 	private String tripCode;
     private String destination;
     private String googleResponse;

@@ -31,11 +31,11 @@ public class TripServiceImplementation implements TripService{
 	@Override
 	public TripDto updateTrip(TripDto tripDto, Integer tripId) {
 		Trip trip = this.tripRepository.findById(tripId)
-				.orElseThrow(() -> new ResourceNotFoundException("Item", "Id", tripId));
+				.orElseThrow(() -> new ResourceNotFoundException("Trip", "Id", tripId));
 		
 		
 		trip.setId(tripDto.getId());
-		trip.setUser(tripDto.getUserId());
+		trip.setUser(tripDto.getUser());
 		trip.setUpdatedOn(tripDto.getUpdatedOn());
 		trip.setUpdatedBy(tripDto.getUpdatedBy());
 		trip.setTripCode(tripDto.getTripCode());
@@ -56,7 +56,7 @@ public class TripServiceImplementation implements TripService{
 	@Override
 	public TripDto getTrip(Integer tripId) {
 		Trip trip = this.tripRepository.findById(tripId)
-				.orElseThrow(() -> new ResourceNotFoundException("Item", "Id", tripId));
+				.orElseThrow(() -> new ResourceNotFoundException("Trip", "Id", tripId));
 		
 		return this.tripToDto(trip);
 	}

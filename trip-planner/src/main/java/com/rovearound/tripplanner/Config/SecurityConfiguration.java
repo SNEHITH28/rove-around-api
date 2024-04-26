@@ -30,8 +30,8 @@ import com.rovearound.tripplanner.security.SecureUserService;
 @EnableWebMvc
 public class SecurityConfiguration {
 	
-	public static final String[] PUBLIC_URLS = {"/api/v1/auth/**","/api/items/**", "/api/vendors/**",
-			"/api/requests/**"
+	public static final String[] PUBLIC_URLS = {"/api/v1/auth/**","/api/trip/**", "/api/expense/**",
+			"/api/budget/**"
     };
 	
 	@Autowired

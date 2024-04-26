@@ -23,11 +23,11 @@ public class ItineraryNotesMapping {
 
     // Ref: itinerary_notes_mapping.note_id > notes.id
     @ManyToOne
-    @JoinColumn(name = "note_id")
+    @JoinColumn(name = "noteId")
     private Notes note;
 
     // Ref: itinerary_notes_mapping.itinerary_id > itinerary.id
     @ManyToOne
-    @JoinColumn(name = "itinerary_id")
+    @JoinColumn(name = "itineraryId")
     private Itinerary itinerary;
 }

@@ -23,8 +23,10 @@ public class Budget {
 
     // Ref: budget.trip_id > trips.id
     @ManyToOne
-    @JoinColumn(name = "trip_id")
+    @JoinColumn(name = "tripId")
     private Trip trip;
 
     private float amount;
+    
+    private boolean status;
 }

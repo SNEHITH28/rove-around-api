@@ -23,11 +23,11 @@ public class TripNotesMapping {
     
     // Ref: trip_notes_mapping.note_id > notes.id
     @ManyToOne
-    @JoinColumn(name = "note_id")
+    @JoinColumn(name = "noteId")
     private Notes note;
 
     // Ref: trip_notes_mapping.trip_id > trips.id
     @ManyToOne
-    @JoinColumn(name = "trip_id")
+    @JoinColumn(name = "tripId")
     private Trip trip;
 }

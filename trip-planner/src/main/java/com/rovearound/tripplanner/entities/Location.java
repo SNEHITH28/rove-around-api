@@ -29,7 +29,7 @@ public class Location {
     // Ref: location.noteId > notes.id // many-to-one
     @ManyToOne
     @JoinColumn(name = "noteId")
-    private Notes note;
+    private Notes notes;
 
     // Ref: location.expenseId > expenses.id // many-to-one
     @ManyToOne

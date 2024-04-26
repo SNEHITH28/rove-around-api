@@ -23,11 +23,11 @@ public class TripLocationMapping {
 
     // Ref: trip_location_mapping.location_id > location.id // many-to-one
     @ManyToOne
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "locationId")
     private Location location;
 
     // Ref: trip_location_mapping.trip_id > trips.id // many-to-one
     @ManyToOne
-    @JoinColumn(name = "trip_id")
+    @JoinColumn(name = "tripId")
     private Trip trip;
 }

@@ -31,7 +31,7 @@ public class Expense {
     // Ref: expenses.paidBy > users.id // many-to-one
     @ManyToOne
     @JoinColumn(name = "paidBy")
-    private User paidBy;
+    private User user;
 
     // Ref: expenses.categoryId > expenses_category.id // many-to-one
     @ManyToOne
