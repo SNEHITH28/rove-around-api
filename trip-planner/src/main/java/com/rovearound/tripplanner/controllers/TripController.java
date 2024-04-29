@@ -89,6 +89,9 @@ public class TripController {
 
 	@GetMapping("/{tripId}")
 	public ResponseEntity<TripDto> getTrip(@PathVariable Integer tripId) {
+		ResponseEntity<TripDto> tripResponseEntity = ResponseEntity.ok(this.tripService.getTrip(tripId));
+		TripDto trip = tripResponseEntity.getBody();
+		List<TravelerDto> travelers = travelerService.getTravelersByTripId(tripId);
 		return ResponseEntity.ok(this.tripService.getTrip(tripId));
 	}
 	

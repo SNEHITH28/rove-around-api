@@ -9,5 +9,6 @@ public interface TravelerService {
 	TravelerDto updateTraveler(TravelerDto traveler, Integer travelerId);
 	TravelerDto getTraveler(Integer travelerId);
 	List<TravelerDto> getAllTravelers();
+	List<TravelerDto> getTravelersByTripId(Integer tripId);
 	void deleteTraveler(Integer travelerId);
 }

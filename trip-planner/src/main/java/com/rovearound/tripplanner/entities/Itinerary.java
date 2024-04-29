@@ -30,4 +30,29 @@ public class Itinerary {
 
     private Date date;
     private boolean status;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Trip getTrip() {
+		return trip;
+	}
+	public void setTrip(Trip trip) {
+		this.trip = trip;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+    
 }
