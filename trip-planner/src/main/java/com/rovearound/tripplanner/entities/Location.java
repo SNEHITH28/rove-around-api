@@ -39,4 +39,47 @@ public class Location {
     private String googleResponse;
     private int position;
     private boolean status;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Notes getNotes() {
+		return notes;
+	}
+	public void setNotes(Notes notes) {
+		this.notes = notes;
+	}
+	public Expense getExpense() {
+		return expense;
+	}
+	public void setExpense(Expense expense) {
+		this.expense = expense;
+	}
+	public String getGoogleResponse() {
+		return googleResponse;
+	}
+	public void setGoogleResponse(String googleResponse) {
+		this.googleResponse = googleResponse;
+	}
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+    
 }

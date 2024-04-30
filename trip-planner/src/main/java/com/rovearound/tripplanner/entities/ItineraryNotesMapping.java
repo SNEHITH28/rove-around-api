@@ -30,4 +30,29 @@ public class ItineraryNotesMapping {
     @ManyToOne
     @JoinColumn(name = "itineraryId")
     private Itinerary itinerary;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Notes getNote() {
+		return note;
+	}
+
+	public void setNote(Notes note) {
+		this.note = note;
+	}
+
+	public Itinerary getItinerary() {
+		return itinerary;
+	}
+
+	public void setItinerary(Itinerary itinerary) {
+		this.itinerary = itinerary;
+	}
+    
 }

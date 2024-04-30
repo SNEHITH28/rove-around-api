@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,17 @@ public class TravelerController {
 	@GetMapping("/{travelerId}")
 	public ResponseEntity<TravelerDto> getTrip(@PathVariable Integer travelerId) {
 		return ResponseEntity.ok(this.travelerService.getTraveler(travelerId));
+	}
+	
+	public List<TravelerDto> getTravelerByTripId(Integer tripId) {
+		ResponseEntity<List<TravelerDto>> travelersResponseEntity = this.getAllTravelers();
+		List<TravelerDto> allTravelers = travelersResponseEntity.getBody();
+		List<TravelerDto> travelers = new ArrayList<TravelerDto>();
+		allTravelers.forEach((traveler) -> {
+			if (traveler.getTrip().getId() == tripId && traveler.isStatus()) {
+				travelers.add(traveler);
+			}
+		});
+		return travelers;
 	}
 }

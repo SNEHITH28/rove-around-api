@@ -32,4 +32,37 @@ public class Votes {
     private User user;
 
     private boolean vote;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public boolean isVote() {
+		return vote;
+	}
+
+	public void setVote(boolean vote) {
+		this.vote = vote;
+	}
+    
 }

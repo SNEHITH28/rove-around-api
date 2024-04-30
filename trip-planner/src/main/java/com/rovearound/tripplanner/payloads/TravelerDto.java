@@ -16,5 +16,30 @@ public class TravelerDto {
     private User user;
     private Trip trip;
     private boolean status;
+	public int getTravelerId() {
+		return travelerId;
+	}
+	public void setTravelerId(int travelerId) {
+		this.travelerId = travelerId;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Trip getTrip() {
+		return trip;
+	}
+	public void setTrip(Trip trip) {
+		this.trip = trip;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+    
 
 }
