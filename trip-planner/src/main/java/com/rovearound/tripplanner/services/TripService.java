@@ -9,6 +9,7 @@ public interface TripService {
 	TripDto createTrip(TripDto trip);
 	TripDto updateTrip(TripDto trip, Integer tripId);
 	TripDto getTrip(Integer tripId);
+	TripDto getTripByTripCode(String tripCode);
 	List<TripDto> getAllTrips();
 	void deleteTrip(Integer tripId);
 

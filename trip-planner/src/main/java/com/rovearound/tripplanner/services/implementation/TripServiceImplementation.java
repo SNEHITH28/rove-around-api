@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,6 +68,17 @@ public class TripServiceImplementation implements TripService{
 				.orElseThrow(() -> new ResourceNotFoundException("Trip", "Id", tripId));
 		
 		return this.tripToDto(trip);
+	}
+	
+	@Override
+	public TripDto getTripByTripCode(String tripCode) {
+		List<TripDto> trip = new ArrayList<TripDto>();
+		this.getAllTrips().forEach(el -> {
+			if(el.getTripCode().equals(tripCode)) {
+				trip.add(el);
+			}
+		});
+		return trip.get(0);
 	}
 
 	@Override

@@ -116,8 +116,10 @@ public class TripController {
 		return ResponseEntity.ok(this.tripService.getAllTrips());
 	}
 
-	@GetMapping("/{tripId}")
-	public ResponseEntity<TripDetails> getTrip(@PathVariable Integer tripId) {
+	@GetMapping("/{tripCode}")
+	public ResponseEntity<TripDetails> getTrip(@PathVariable String tripCode) {
+		TripDto trip = tripService.getTripByTripCode(tripCode);
+		int tripId = trip.getId();
 		TripDto tripResponse = this.tripService.getTrip(tripId);
 		List<UserDto> travelers = travelerService.getUsersByTravelerId(tripId);
 		List<ItineraryDto> itineraries = itineraryService.getItineraryByTripId(tripId);
