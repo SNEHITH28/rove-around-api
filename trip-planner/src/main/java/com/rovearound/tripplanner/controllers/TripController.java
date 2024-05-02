@@ -27,6 +27,7 @@ import com.rovearound.tripplanner.entities.Trip;
 import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.models.ItineraryDetails;
 import com.rovearound.tripplanner.models.TripDetails;
+import com.rovearound.tripplanner.models.TripInfo;
 import com.rovearound.tripplanner.payloads.ApiResponse;
 import com.rovearound.tripplanner.payloads.TripDto;
 import com.rovearound.tripplanner.payloads.TripLocationDto;
@@ -115,46 +116,40 @@ public class TripController {
 	public ResponseEntity<List<TripDto>> getAllTrips() {
 		return ResponseEntity.ok(this.tripService.getAllTrips());
 	}
+	
+	@GetMapping("/all/{userId}")
+	public ResponseEntity<List<TripInfo>> getAllTripsByUserId(@PathVariable("userId") Integer userId) {
+		List<TripInfo> tripInfos = new ArrayList<>();
+		List<TripDto> trips = this.tripService.getAllTrips();
+		List<TravelerDto> travelers = this.travelerService.getAllTravelers();
+		trips.forEach(trip -> {
+			travelers.forEach(traveler -> {
+				if (trip.isStatus() && traveler.getUser().getId() == userId && traveler.isStatus()) {
+					TripDetails tripDetails = tripService.getTripByTripCode(trip.getTripCode());
+					int numberOfPlaces = tripDetails.getTripLocations().size();
+					for(ItineraryDetails el: tripDetails.getItineraries()) {
+						numberOfPlaces += el.getItineraryLocations().size();
+					};
+					TripInfo tripInfo = new TripInfo();
+					tripInfo.setId(trip.getId());
+					tripInfo.setDestination(trip.getDestination());
+					tripInfo.setGoogleResponse(trip.getGoogleResponse());
+					tripInfo.setStartDate(trip.getStartDate());
+					tripInfo.setEndDate(trip.getEndDate());
+					tripInfo.setNumberOfUsers(tripDetails.getTravelers().size());
+					tripInfo.setBudget(tripDetails.getBudget().getAmount());
+					tripInfo.setNumberOfPlaces(numberOfPlaces);
+					
+				}
+			});
+		});
+		return ResponseEntity.ok(tripInfos);
+		
+	}
 
 	@GetMapping("/{tripCode}")
 	public ResponseEntity<TripDetails> getTrip(@PathVariable String tripCode) {
-		TripDto trip = tripService.getTripByTripCode(tripCode);
-		int tripId = trip.getId();
-		TripDto tripResponse = this.tripService.getTrip(tripId);
-		List<UserDto> travelers = travelerService.getUsersByTravelerId(tripId);
-		List<ItineraryDto> itineraries = itineraryService.getItineraryByTripId(tripId);
-		List<TripLocationDto> tripLocations = tripLocationService.getTripLocationsByTripId(tripId);
-		BudgetDto budget = budgetService.getBudgetByTripId(tripId);
-		List<ExpenseDto> expenses = expenseService.getExpenseByTripId(tripId);
-		List<TripNotesDto> tripNotes = tripNotesService.getTripNotesByTripId(tripId);
-		
-		TripDetails tripDetails = new TripDetails();
-		List<ItineraryDetails> itineraryDetails = new ArrayList<ItineraryDetails>();
-		itineraries.forEach(el -> {
-			List<ItineraryNotesDto> itineraryNotes = itineraryNotesService.getItineraryNotesByItineraryId(el.getId());
-			List<ItineraryLocationDto> itineraryLocations = itineraryLocationService.getItineraryLocationsByItineraryId(el.getId());
-			
-			ItineraryDetails itineraryDetail = new ItineraryDetails();
-			itineraryDetail.setItineraryNotes(itineraryNotes);
-			itineraryDetail.setItineraryLocations(itineraryLocations);
-			itineraryDetail.setItineraryId(el.getId());
-			itineraryDetail.setStatus(el.isStatus());
-			itineraryDetail.setDate(el.getDate());
-			itineraryDetail.setTripId(tripId);
-			
-			itineraryDetails.add(itineraryDetail);
-		});
-		
-		tripDetails.setTrip(tripResponse);
-		tripDetails.setTravelers(travelers);
-		tripDetails.setItineraries(itineraryDetails);
-		tripDetails.setTripLocations(tripLocations);
-		tripDetails.setBudget(budget);
-		tripDetails.setExpenses(expenses);
-		tripDetails.setTripNotes(tripNotes);
-		
-		
-		return ResponseEntity.ok(tripDetails);
+		return ResponseEntity.ok(tripService.getTripByTripCode(tripCode));
 	}
 	
 	private void createInitialBudgetForTrip(TripDto createdTripDto) {
