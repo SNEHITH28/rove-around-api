@@ -23,8 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rovearound.tripplanner.entities.Trip;
+import com.rovearound.tripplanner.models.TripDetails;
 import com.rovearound.tripplanner.payloads.ApiResponse;
 import com.rovearound.tripplanner.payloads.TripDto;
+import com.rovearound.tripplanner.payloads.TripLocationDto;
+import com.rovearound.tripplanner.payloads.TripNotesDto;
+import com.rovearound.tripplanner.payloads.UserDto;
 import com.rovearound.tripplanner.payloads.BudgetDto;
 import com.rovearound.tripplanner.payloads.ExpenseDto;
 import com.rovearound.tripplanner.payloads.ItineraryDto;
@@ -33,6 +37,8 @@ import com.rovearound.tripplanner.services.BudgetService;
 import com.rovearound.tripplanner.services.ExpenseService;
 import com.rovearound.tripplanner.services.ItineraryService;
 import com.rovearound.tripplanner.services.TravelerService;
+import com.rovearound.tripplanner.services.TripLocationService;
+import com.rovearound.tripplanner.services.TripNotesService;
 import com.rovearound.tripplanner.services.TripService;
 
 import jakarta.validation.Valid;
@@ -57,6 +63,12 @@ public class TripController {
 	private TravelerService travelerService;
 	
 	@Autowired
+	private TripLocationService tripLocationService;
+	
+	@Autowired
+	private TripNotesService tripNotesService;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@PostMapping("/add")
@@ -64,7 +76,6 @@ public class TripController {
 		tripDto.setTripCode(this.generateTripCode());
 		TripDto createdTripDto = this.tripService.createTrip(tripDto);
 		this.createInitialBudgetForTrip(createdTripDto);
-		this.createInitialExpenseForTrip(createdTripDto);
 		this.createInitialItineraryForTrip(createdTripDto);
 		this.createInitialTravelerForTrip(createdTripDto);
 		return new ResponseEntity<>(createdTripDto, HttpStatus.CREATED);
@@ -89,9 +100,25 @@ public class TripController {
 
 	@GetMapping("/{tripId}")
 	public ResponseEntity<TripDto> getTrip(@PathVariable Integer tripId) {
-		ResponseEntity<TripDto> tripResponseEntity = ResponseEntity.ok(this.tripService.getTrip(tripId));
-		TripDto trip = tripResponseEntity.getBody();
-		List<TravelerDto> travelers = travelerService.getTravelersByTripId(tripId);
+		TripDto tripResponse = this.tripService.getTrip(tripId);
+		List<UserDto> travelers = travelerService.getUsersByTravelerId(tripId);
+		List<ItineraryDto> itineraries = itineraryService.getItineraryByTripId(tripId);
+		List<TripLocationDto> tripLocations = tripLocationService.getTripLocationsByTripId(tripId);
+		BudgetDto budget = budgetService.getBudgetByTripId(tripId);
+		List<ExpenseDto> expenses = expenseService.getExpenseByTripId(tripId);
+		List<TripNotesDto> tripNotes = tripNotesService.getTripNotesByTripId(tripId);
+		
+		TripDetails tripDetails = new TripDetails();
+		
+		tripDetails.setTrip(tripResponse);
+		tripDetails.setTravelers(travelers);
+		tripDetails.setItineraries(itineraries);
+		tripDetails.setTripLocations(tripLocations);
+		tripDetails.setBudget(budget);
+		tripDetails.setExpenses(expenses);
+		tripDetails.setTripNotes(tripNotes);
+		
+		
 		return ResponseEntity.ok(this.tripService.getTrip(tripId));
 	}
 	

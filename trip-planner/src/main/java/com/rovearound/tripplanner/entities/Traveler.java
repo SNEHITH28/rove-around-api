@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,12 @@ public class Traveler {
     private int id;
 
     // Ref: travelers.userId > users.id // many-to-one
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
     // Ref: travelers.tripId > trips.id // many-to-one
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

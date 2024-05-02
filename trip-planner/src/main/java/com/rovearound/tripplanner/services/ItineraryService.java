@@ -8,6 +8,7 @@ public interface ItineraryService {
 	ItineraryDto createItinerary(ItineraryDto itinerary);
 	ItineraryDto updateItinerary(ItineraryDto itinerary, Integer itineraryId);
 	ItineraryDto getItinerary(Integer itineraryId);
+	List<ItineraryDto> getItineraryByTripId(Integer tripId);
 	List<ItineraryDto> getAllItinerarys();
 	void deleteItinerary(Integer itineraryId);
 }

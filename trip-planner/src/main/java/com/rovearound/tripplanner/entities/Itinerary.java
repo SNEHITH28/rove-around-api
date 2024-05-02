@@ -2,6 +2,7 @@ package com.rovearound.tripplanner.entities;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Itinerary {
     private int id;
     
     // Ref: itinerary.tripId > trips.id // many-to-one
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

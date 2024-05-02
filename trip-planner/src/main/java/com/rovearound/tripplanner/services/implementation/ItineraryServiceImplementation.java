@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
 		itinerary.setStatus(false);
 		this.itineraryRepository.save(itinerary);
 
+	}
+	
+	@Override
+	public List<ItineraryDto> getItineraryByTripId(Integer tripId) {
+		List<ItineraryDto> allItineraries = new ArrayList<>();
+		for(ItineraryDto itinerary : this.getAllItinerarys()) {
+			if(itinerary.getTrip().getId() == tripId && itinerary.isStatus()) {
+				
+				allItineraries.add(itinerary);
+			}
+		}
+		return allItineraries;
 	}
 	
 	private Itinerary dtoToItinerary(ItineraryDto itineraryDto) {

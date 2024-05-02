@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Budget {
     private int id;
 
     // Ref: budget.trip_id > trips.id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

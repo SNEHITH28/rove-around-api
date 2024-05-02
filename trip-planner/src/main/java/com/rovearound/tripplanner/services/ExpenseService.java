@@ -9,5 +9,6 @@ public interface ExpenseService {
 	ExpenseDto updateExpense(ExpenseDto expense, Integer expenseId);
 	ExpenseDto getExpense(Integer expenseId);
 	List<ExpenseDto> getAllExpenses();
+	List<ExpenseDto> getExpenseByTripId(Integer tripId);
 	void deleteExpense(Integer expenseId);
 }

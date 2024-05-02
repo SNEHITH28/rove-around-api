@@ -1,5 +1,6 @@
 package com.rovearound.tripplanner.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,6 +75,17 @@ public class ExpenseServiceImplementation implements ExpenseService {
 		expense.setStatus(false);
 		this.expenseRepository.save(expense);
 
+	}
+	
+	@Override
+	public List<ExpenseDto> getExpenseByTripId(Integer tripId) {
+		List<ExpenseDto> expenses = new ArrayList<>();
+		this.getAllExpenses().forEach(el -> {
+			if(el.getTrip().getId() == tripId && el.isStatus()) {
+				expenses.add(el);
+			}
+		});
+		return expenses;
 	}
 	
 	private Expense dtoToExpense(ExpenseDto expenseDto) {

@@ -1,44 +1,45 @@
 package com.rovearound.tripplanner.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name="location")
-@NoArgsConstructor
-@Getter
-@Setter
-public class Location {
-    @Id
+@Table(name="itinerary_location")
+public class ItineraryLocation {
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     // Ref: location.userId > users.id // many-to-one
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
     // Ref: location.noteId > notes.id // many-to-one
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "noteId")
-    private Notes notes;
+    private TripNotes notes;
 
     // Ref: location.expenseId > expenses.id // many-to-one
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "expenseId")
     private Expense expense;
-
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "itineraryId")
+    private Itinerary itinerary;
+    
     private String googleResponse;
     private int position;
     private boolean status;
+
 	public int getId() {
 		return id;
 	}
@@ -51,10 +52,10 @@ public class Location {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Notes getNotes() {
+	public TripNotes getNotes() {
 		return notes;
 	}
-	public void setNotes(Notes notes) {
+	public void setNotes(TripNotes notes) {
 		this.notes = notes;
 	}
 	public Expense getExpense() {
@@ -62,6 +63,12 @@ public class Location {
 	}
 	public void setExpense(Expense expense) {
 		this.expense = expense;
+	}
+	public Itinerary getItinerary() {
+		return itinerary;
+	}
+	public void setItinerary(Itinerary itinerary) {
+		this.itinerary = itinerary;
 	}
 	public String getGoogleResponse() {
 		return googleResponse;
@@ -81,5 +88,5 @@ public class Location {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-    
+
 }

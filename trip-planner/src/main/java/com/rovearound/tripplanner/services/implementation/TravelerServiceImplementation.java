@@ -1,23 +1,32 @@
 package com.rovearound.tripplanner.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.rovearound.tripplanner.entities.Traveler;
+import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.exceptions.ResourceNotFoundException;
 import com.rovearound.tripplanner.payloads.TravelerDto;
+import com.rovearound.tripplanner.payloads.UserDto;
 import com.rovearound.tripplanner.repositories.TravelerRepository;
+import com.rovearound.tripplanner.services.ItineraryService;
 import com.rovearound.tripplanner.services.TravelerService;
+import com.rovearound.tripplanner.services.UserService;
 
 @Service
 public class TravelerServiceImplementation implements TravelerService {
 
 	@Autowired
 	private TravelerRepository travelerRepository;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -69,6 +78,19 @@ public class TravelerServiceImplementation implements TravelerService {
 		traveler.setStatus(false);
 		this.travelerRepository.save(traveler);
 
+	}
+	
+	@Override
+	public List<UserDto> getUsersByTravelerId(Integer tripId) {
+		List<TravelerDto> allTravelers = this.getAllTravelers();
+		List<UserDto> users = new ArrayList<UserDto>();
+		allTravelers.forEach((traveler) -> {
+			if (traveler.getTrip().getId() == tripId && traveler.isStatus()) {
+				int userId = traveler.getUser().getId();
+				users.add(userService.getUser(userId));
+			}
+		});
+		return users;
 	}
 	
 	private Traveler dtoToTraveler(TravelerDto travelerDto) {

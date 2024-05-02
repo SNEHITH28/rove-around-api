@@ -25,6 +25,7 @@ public class BudgetServiceImplementation implements BudgetService {
 	@Override
 	public BudgetDto createBudget(BudgetDto budgetDto) {
 		Budget budget = this.dtoToBudget(budgetDto);
+		System.out.println("lohitha " + budget.getId());
 		Budget savedBudget = this.budgetRepository.save(budget);
 		return this.budgetToDto(savedBudget);
 	}
@@ -69,6 +70,20 @@ public class BudgetServiceImplementation implements BudgetService {
 		budget.setStatus(false);
 		this.budgetRepository.save(budget);
 
+	}
+	
+	@Override
+	public BudgetDto getBudgetByTripId(Integer tripId) {
+		BudgetDto budget = new BudgetDto();
+		this.getAllBudgets().forEach((el)-> {
+			if(el.getTrip().getId() == tripId && el.isStatus()) {
+				budget.setAmount(el.getAmount());
+				budget.setBudgetId(el.getBudgetId());
+				budget.setStatus(budget.isStatus());
+				budget.setTrip(el.getTrip());
+			}
+		});
+		return budget;
 	}
 	
 	private Budget dtoToBudget(BudgetDto budgetDto) {

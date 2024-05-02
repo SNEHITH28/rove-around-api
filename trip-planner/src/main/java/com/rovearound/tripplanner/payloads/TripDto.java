@@ -1,6 +1,8 @@
 package com.rovearound.tripplanner.payloads;
 
 import java.util.Date;
+import java.util.List;
+
 import com.rovearound.tripplanner.entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,7 @@ public class TripDto {
     private Date createdOn;
     private int updatedBy;
     private Date updatedOn;
-    private boolean status;
+	private boolean status;
 	public int getId() {
 		return id;
 	}
