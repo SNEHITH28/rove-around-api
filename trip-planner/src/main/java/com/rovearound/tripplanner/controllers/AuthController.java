@@ -68,21 +68,20 @@ public class AuthController {
 				password);
 
 		try {
-
 			this.authenticationManager.authenticate(authenticationToken);
 
 		} catch (BadCredentialsException e) {
 			System.out.println("Invalid Detials !!");
-			throw new ApiException("Invalid username or password !!");
+			throw new ApiException("Invalid email or password !!");
 		}
 
 	}
 
 	// register new user api
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto managerDto) {
-		if(this.userRepository.findByEmail(managerDto.getEmail()).isEmpty()) {
-			UserDto registeredUser = this.userService.registerNewUser(managerDto);
+	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
+		if(this.userRepository.findByEmail(userDto.getEmail()).isEmpty()) {
+			UserDto registeredUser = this.userService.registerNewUser(userDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());
 	    }
 	    return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(HttpStatus.ALREADY_REPORTED.value());

@@ -2,13 +2,10 @@ package com.rovearound.tripplanner.payloads;
 
 import java.util.Date;
 
-import com.rovearound.tripplanner.entities.Itinerary;
-import com.rovearound.tripplanner.entities.User;
-
 public class ItineraryNotesDto {
 	private int id;
-    private User user;
-    private Itinerary itinerary;
+    private int userId;
+    private int itineraryId;
 	private String note;
     private boolean status;
     private int createdBy;
@@ -21,17 +18,18 @@ public class ItineraryNotesDto {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public Itinerary getItinerary() {
-		return itinerary;
+	public int getItineraryId() {
+		return itineraryId;
 	}
-	public void setTrip(Itinerary itinerary) {
-		this.itinerary = itinerary;
+	public void setItineraryId(int itineraryId) {
+		this.itineraryId = itineraryId;
 	}
 	public String getNote() {
 		return note;

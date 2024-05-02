@@ -25,17 +25,17 @@ public class Expense {
     private int id;
     
     // Ref: expenses.tripId > trips.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tripId")
     private Trip trip;
 
     // Ref: expenses.paidBy > users.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "paidBy")
     private User user;
 
     // Ref: expenses.categoryId > expenses_category.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "categoryId")
     private ExpensesCategory category;
 

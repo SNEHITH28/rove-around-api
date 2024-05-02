@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class TripDto {
 	private int id;
-	private User user;
+	private int userId;
 	private String tripCode;
     private String destination;
     private String googleResponse;
@@ -30,11 +30,12 @@ public class TripDto {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getTripCode() {
 		return tripCode;

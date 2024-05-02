@@ -7,8 +7,8 @@ import com.rovearound.tripplanner.entities.User;
 
 public class ItineraryLocationNotesDto {
 	private int id;
-    private User user;
-    private ItineraryLocation itineraryLocation;
+    private int userId;
+    private int itineraryLocationId;
 	private String note;
     private boolean status;
     private int createdBy;
@@ -22,17 +22,18 @@ public class ItineraryLocationNotesDto {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public ItineraryLocation getItineraryLocation() {
-		return itineraryLocation;
+	public int getItineraryLocationId() {
+		return itineraryLocationId;
 	}
-	public void setItineraryLocation(ItineraryLocation itineraryLocation) {
-		this.itineraryLocation = itineraryLocation;
+	public void setItineraryLocationId(int itineraryLocationId) {
+		this.itineraryLocationId = itineraryLocationId;
 	}
 	public String getNote() {
 		return note;

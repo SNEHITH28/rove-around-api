@@ -35,8 +35,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
 		Itinerary itinerary = this.itineraryRepository.findById(itineraryId)
 				.orElseThrow(() -> new ResourceNotFoundException("Itinerary", "Id", itineraryId));
 		
-		itinerary.setId(itineraryDto.getItineraryId());
-		itinerary.setTrip(itineraryDto.getTrip());
+		itinerary.setId(itineraryDto.getId());
+//		itinerary.setTrip(itineraryDto.getTrip());
 		itinerary.setDate(itineraryDto.getDate());
 		itinerary.setStatus(true);
 
@@ -76,7 +76,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 	public List<ItineraryDto> getItineraryByTripId(Integer tripId) {
 		List<ItineraryDto> allItineraries = new ArrayList<>();
 		for(ItineraryDto itinerary : this.getAllItinerarys()) {
-			if(itinerary.getTrip().getId() == tripId && itinerary.isStatus()) {
+			if(itinerary.getTripId() == tripId && itinerary.isStatus()) {
 				
 				allItineraries.add(itinerary);
 			}

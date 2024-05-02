@@ -25,7 +25,7 @@ public class BudgetServiceImplementation implements BudgetService {
 	@Override
 	public BudgetDto createBudget(BudgetDto budgetDto) {
 		Budget budget = this.dtoToBudget(budgetDto);
-		System.out.println("lohitha " + budget.getId());
+		budget.setStatus(true);
 		Budget savedBudget = this.budgetRepository.save(budget);
 		return this.budgetToDto(savedBudget);
 	}
@@ -35,9 +35,9 @@ public class BudgetServiceImplementation implements BudgetService {
 		Budget budget = this.budgetRepository.findById(budgetId)
 				.orElseThrow(() -> new ResourceNotFoundException("Budget", "Id", budgetId));
 		
-		budget.setId(budgetDto.getBudgetId());
+		budget.setId(budgetDto.getId());
 		budget.setAmount(budgetDto.getAmount());
-		budget.setTrip(budgetDto.getTrip());
+//		budget.setTrip(budgetDto.getTrip());
 		budget.setStatus(true);
 
 		Budget updatedBudget = this.budgetRepository.save(budget);
@@ -76,11 +76,11 @@ public class BudgetServiceImplementation implements BudgetService {
 	public BudgetDto getBudgetByTripId(Integer tripId) {
 		BudgetDto budget = new BudgetDto();
 		this.getAllBudgets().forEach((el)-> {
-			if(el.getTrip().getId() == tripId && el.isStatus()) {
+			if(el.getTripId() == tripId && el.isStatus()) {
 				budget.setAmount(el.getAmount());
-				budget.setBudgetId(el.getBudgetId());
+				budget.setId(el.getId());
 				budget.setStatus(budget.isStatus());
-				budget.setTrip(el.getTrip());
+				budget.setTripId(tripId);
 			}
 		});
 		return budget;

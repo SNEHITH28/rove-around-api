@@ -23,7 +23,7 @@ public class Budget {
     private int id;
 
     // Ref: budget.trip_id > trips.id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

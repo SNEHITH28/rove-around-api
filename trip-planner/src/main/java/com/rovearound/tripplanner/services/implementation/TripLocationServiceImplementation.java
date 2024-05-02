@@ -40,8 +40,8 @@ public class TripLocationServiceImplementation implements TripLocationService {
 				.orElseThrow(() -> new ResourceNotFoundException("TripLocation", "Id", tripLocationId));
 		
 		tripLocation.setId(tripLocationDto.getId());
-		tripLocation.setTrip(tripLocationDto.getTrip());
-		tripLocation.setUser(tripLocationDto.getUser());
+//		tripLocation.setTrip(tripLocationDto.getTrip());
+//		tripLocation.setUser(tripLocationDto.getUser());
 		tripLocation.setStatus(true);
 
 		TripLocation updatedTripLocation = this.tripLocationRepository.save(tripLocation);
@@ -80,7 +80,7 @@ public class TripLocationServiceImplementation implements TripLocationService {
 	public List<TripLocationDto> getTripLocationsByTripId(Integer tripId) {
 		List<TripLocationDto> allTripLocations = new ArrayList<>();
 		this.getAllTripLocations().forEach((tripLocation) -> {
-			if (tripLocation.getTrip().getId() == tripId && tripLocation.isStatus()) {
+			if (tripLocation.getTripId() == tripId && tripLocation.isStatus()) {
 				allTripLocations.add(tripLocation);
 			}
 		});

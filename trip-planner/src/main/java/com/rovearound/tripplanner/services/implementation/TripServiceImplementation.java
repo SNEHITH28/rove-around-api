@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rovearound.tripplanner.entities.Trip;
+import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.exceptions.ResourceNotFoundException;
 import com.rovearound.tripplanner.payloads.TripDto;
 import com.rovearound.tripplanner.repositories.TripRepository;
 import com.rovearound.tripplanner.services.TripService;
+import com.rovearound.tripplanner.services.UserService;
 
 @Service
 public class TripServiceImplementation implements TripService{
@@ -19,11 +21,17 @@ public class TripServiceImplementation implements TripService{
 	private TripRepository tripRepository;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
 	public TripDto createTrip(TripDto tripDto) {
 		Trip trip = this.dtoToTrip(tripDto);
+		trip.setStatus(true);
+		User user = this.modelMapper.map(userService.getUser(tripDto.getUserId()), User.class);
+		trip.setUser(user);
 		Trip savedTrip = this.tripRepository.save(trip);
 		return this.tripToDto(savedTrip);
 	}
@@ -35,7 +43,7 @@ public class TripServiceImplementation implements TripService{
 		
 		
 		trip.setId(tripDto.getId());
-		trip.setUser(tripDto.getUser());
+//		trip.setUser(tripDto.getUser());
 		trip.setUpdatedOn(tripDto.getUpdatedOn());
 		trip.setUpdatedBy(tripDto.getUpdatedBy());
 		trip.setTripCode(tripDto.getTripCode());

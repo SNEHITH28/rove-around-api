@@ -2,10 +2,6 @@ package com.rovearound.tripplanner.payloads;
 
 import java.util.Date;
 
-import com.rovearound.tripplanner.entities.ExpensesCategory;
-import com.rovearound.tripplanner.entities.Trip;
-import com.rovearound.tripplanner.entities.User;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,38 +10,39 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExpenseDto {
-	private int expenseId;
-    private Trip trip;
-    private User user;
-    private ExpensesCategory category;
+	private int id;
+    private int tripId;
+    private int userId;
+    private int categoryId;
     private String categoryDescription;
     private Date paidOn;
     private float amount;
     private String splitType;
     private boolean status;
-	public int getExpenseId() {
-		return expenseId;
+	public int getId() {
+		return id;
 	}
-	public void setExpenseId(int expenseId) {
-		this.expenseId = expenseId;
+	public void setExpenseId(int id) {
+		this.id = id;
 	}
-	public Trip getTrip() {
-		return trip;
+	
+	public int getTripId() {
+		return tripId;
 	}
-	public void setTrip(Trip trip) {
-		this.trip = trip;
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
 	}
-	public User getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public ExpensesCategory getCategory() {
-		return category;
+	public int getCategoryId() {
+		return categoryId;
 	}
-	public void setCategory(ExpensesCategory category) {
-		this.category = category;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	public String getCategoryDescription() {
 		return categoryDescription;

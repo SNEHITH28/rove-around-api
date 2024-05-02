@@ -25,7 +25,7 @@ public class Itinerary {
     private int id;
     
     // Ref: itinerary.tripId > trips.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

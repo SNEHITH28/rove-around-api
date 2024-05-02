@@ -35,8 +35,8 @@ public class ItineraryNotesServiceImplementation implements ItineraryNotesServic
 				.orElseThrow(() -> new ResourceNotFoundException("ItineraryNotes", "Id", itineraryNotesId));
 		
 		itineraryNotes.setId(itineraryNotesDto.getId());
-		itineraryNotes.setItinerary(itineraryNotesDto.getItinerary());
-		itineraryNotes.setUser(itineraryNotesDto.getUser());
+//		itineraryNotes.setItinerary(itineraryNotesDto.getItinerary());
+//		itineraryNotes.setUser(itineraryNotesDto.getUser());
 		itineraryNotes.setStatus(true);
 
 		ItineraryNotes updatedItineraryNotes = this.itineraryNotesRepository.save(itineraryNotes);
@@ -75,7 +75,7 @@ public class ItineraryNotesServiceImplementation implements ItineraryNotesServic
 	public List<ItineraryNotesDto> getItineraryNotesByItineraryId(Integer itineraryId) {
 		List<ItineraryNotesDto> allItineraryNotes = new ArrayList<>();
 		this.getAllItineraryNotes().forEach((itineraryNotes) -> {
-			if (itineraryNotes.getItinerary().getId() == itineraryId && itineraryNotes.isStatus()) {
+			if (itineraryNotes.getItineraryId() == itineraryId && itineraryNotes.isStatus()) {
 				allItineraryNotes.add(itineraryNotes);
 			}
 		});

@@ -19,13 +19,9 @@ public class TripLocationNotes {
     private int id;
 
     // Ref: notes.userId > users.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tripLocationId")
-    private TripLocation tripLocation;
 
 	private String note;
     private boolean status;
@@ -45,12 +41,6 @@ public class TripLocationNotes {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public TripLocation getTripLocation() {
-		return tripLocation;
-	}
-	public void setTripLocation(TripLocation tripLocation) {
-		this.tripLocation = tripLocation;
 	}
 	public String getNote() {
 		return note;

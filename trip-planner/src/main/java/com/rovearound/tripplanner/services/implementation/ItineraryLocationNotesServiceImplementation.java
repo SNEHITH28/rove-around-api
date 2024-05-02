@@ -35,8 +35,8 @@ public class ItineraryLocationNotesServiceImplementation implements ItineraryLoc
 				.orElseThrow(() -> new ResourceNotFoundException("ItineraryLocationNotes", "Id", itineraryLocationNotesId));
 		
 		itineraryLocationNotes.setId(itineraryLocationNotesDto.getId());
-		itineraryLocationNotes.setItineraryLocation(itineraryLocationNotesDto.getItineraryLocation());
-		itineraryLocationNotes.setUser(itineraryLocationNotesDto.getUser());
+//		itineraryLocationNotes.setItineraryLocation(itineraryLocationNotesDto.getItineraryLocation());
+//		itineraryLocationNotes.setUser(itineraryLocationNotesDto.getUser());
 		itineraryLocationNotes.setStatus(true);
 
 		ItineraryLocationNotes updatedItineraryLocationNotes = this.itineraryLocationNotesRepository.save(itineraryLocationNotes);
@@ -75,7 +75,7 @@ public class ItineraryLocationNotesServiceImplementation implements ItineraryLoc
 	public List<ItineraryLocationNotesDto> getItineraryLocationNotesByItineraryLocationId(Integer itineraryLocationId) {
 		List<ItineraryLocationNotesDto> allItineraryLocationNotes = new ArrayList<>();
 		this.getAllItineraryLocationNotes().forEach((itineraryLocationNotes) -> {
-			if (itineraryLocationNotes.getItineraryLocation().getId() == itineraryLocationId && itineraryLocationNotes.isStatus()) {
+			if (itineraryLocationNotes.getItineraryLocationId() == itineraryLocationId && itineraryLocationNotes.isStatus()) {
 				allItineraryLocationNotes.add(itineraryLocationNotes);
 			}
 		});

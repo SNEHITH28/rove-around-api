@@ -35,8 +35,8 @@ public class TripNotesServiceImplementation implements TripNotesService {
 				.orElseThrow(() -> new ResourceNotFoundException("TripNotes", "Id", tripNotesId));
 		
 		tripNotes.setId(tripNotesDto.getId());
-		tripNotes.setTrip(tripNotesDto.getTrip());
-		tripNotes.setUser(tripNotesDto.getUser());
+//		tripNotes.setTrip(tripNotesDto.getTrip());
+//		tripNotes.setUser(tripNotesDto.getUser());
 		tripNotes.setStatus(true);
 
 		TripNotes updatedTripNotes = this.tripNotesRepository.save(tripNotes);
@@ -75,7 +75,7 @@ public class TripNotesServiceImplementation implements TripNotesService {
 	public List<TripNotesDto> getTripNotesByTripId(Integer tripId) {
 		List<TripNotesDto> allTripNotes = new ArrayList<>();
 		this.getAllTripNotes().forEach((tripNotes) -> {
-			if (tripNotes.getTrip().getId() == tripId && tripNotes.isStatus()) {
+			if (tripNotes.getTripId() == tripId && tripNotes.isStatus()) {
 				allTripNotes.add(tripNotes);
 			}
 		});

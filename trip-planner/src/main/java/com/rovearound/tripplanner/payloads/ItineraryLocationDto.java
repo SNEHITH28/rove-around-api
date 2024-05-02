@@ -1,17 +1,10 @@
 package com.rovearound.tripplanner.payloads;
 
-import com.rovearound.tripplanner.entities.Expense;
-import com.rovearound.tripplanner.entities.Itinerary;
-import com.rovearound.tripplanner.entities.TripNotes;
-import com.rovearound.tripplanner.entities.User;
-
 
 public class ItineraryLocationDto {
 	private int id;
-    private User user;
-    private TripNotes notes;
-    private Expense expense;
-    private Itinerary itinerary;
+    private int userId;
+    private int itineraryId;
     private String googleResponse;
     private int position;
 	private boolean status;
@@ -21,30 +14,18 @@ public class ItineraryLocationDto {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}	
+	public int getUserId() {
+		return userId;
 	}
-	public User getUser() {
-		return user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public int getItineraryId() {
+		return itineraryId;
 	}
-	public TripNotes getNotes() {
-		return notes;
-	}
-	public void setNotes(TripNotes notes) {
-		this.notes = notes;
-	}
-	public Expense getExpense() {
-		return expense;
-	}
-	public void setExpense(Expense expense) {
-		this.expense = expense;
-	}
-	public Itinerary getItinerary() {
-		return itinerary;
-	}
-	public void setItinerary(Itinerary itinerary) {
-		this.itinerary = itinerary;
+	public void setItineraryId(int itineraryId) {
+		this.itineraryId = itineraryId;
 	}
 	public String getGoogleResponse() {
 		return googleResponse;

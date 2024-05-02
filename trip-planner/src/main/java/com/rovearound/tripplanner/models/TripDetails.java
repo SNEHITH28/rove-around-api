@@ -1,10 +1,12 @@
 package com.rovearound.tripplanner.models;
 
+import java.util.Date;
 import java.util.List;
 
+import com.rovearound.tripplanner.entities.ItineraryNotes;
 import com.rovearound.tripplanner.payloads.BudgetDto;
 import com.rovearound.tripplanner.payloads.ExpenseDto;
-import com.rovearound.tripplanner.payloads.ItineraryDto;
+import com.rovearound.tripplanner.payloads.ItineraryLocationDto;
 import com.rovearound.tripplanner.payloads.TripDto;
 import com.rovearound.tripplanner.payloads.TripLocationDto;
 import com.rovearound.tripplanner.payloads.TripNotesDto;
@@ -15,7 +17,7 @@ public class TripDetails {
 	TripDto trip;
 	List<UserDto> travelers;
 	List<TripLocationDto> tripLocations;
-	List<ItineraryDto> itineraries;
+	List<ItineraryDetails> itineraries;
 	BudgetDto budget;
 	List<ExpenseDto> expenses;
 	List<TripNotesDto> tripNotes;
@@ -37,12 +39,7 @@ public class TripDetails {
 	public void setTripLocations(List<TripLocationDto> tripLocations) {
 		this.tripLocations = tripLocations;
 	}
-	public List<ItineraryDto> getItineraries() {
-		return itineraries;
-	}
-	public void setItineraries(List<ItineraryDto> itineraries) {
-		this.itineraries = itineraries;
-	}
+	
 	public BudgetDto getBudget() {
 		return budget;
 	}
@@ -61,6 +58,10 @@ public class TripDetails {
 	public void setTripNotes(List<TripNotesDto> tripNotes) {
 		this.tripNotes = tripNotes;
 	}
-	
-	
+	public List<ItineraryDetails> getItineraries() {
+		return itineraries;
+	}
+	public void setItineraries(List<ItineraryDetails> itineraries) {
+		this.itineraries = itineraries;
+	}
 }

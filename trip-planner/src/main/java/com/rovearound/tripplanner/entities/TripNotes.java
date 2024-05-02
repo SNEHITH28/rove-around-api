@@ -25,11 +25,11 @@ public class TripNotes {
     private int id;
 
     // Ref: notes.userId > users.id // many-to-one
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tripId")
     private Trip trip;
 

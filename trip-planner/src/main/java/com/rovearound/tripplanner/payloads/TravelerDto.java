@@ -1,7 +1,6 @@
 package com.rovearound.tripplanner.payloads;
 
 
-import com.rovearound.tripplanner.entities.Trip;
 import com.rovearound.tripplanner.entities.User;
 
 import lombok.Getter;
@@ -12,15 +11,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TravelerDto {
-	private int travelerId;
+	private int id;
     private User user;
-    private Trip trip;
+    private int tripId;
     private boolean status;
-	public int getTravelerId() {
-		return travelerId;
+	public int getId() {
+		return id;
 	}
-	public void setTravelerId(int travelerId) {
-		this.travelerId = travelerId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public User getUser() {
 		return user;
@@ -28,11 +27,12 @@ public class TravelerDto {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Trip getTrip() {
-		return trip;
+	
+	public int getTripId() {
+		return tripId;
 	}
-	public void setTrip(Trip trip) {
-		this.trip = trip;
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
 	}
 	public boolean isStatus() {
 		return status;

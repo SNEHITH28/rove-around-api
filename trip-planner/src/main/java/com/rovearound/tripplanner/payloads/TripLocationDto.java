@@ -1,49 +1,34 @@
 package com.rovearound.tripplanner.payloads;
 
-import com.rovearound.tripplanner.entities.Expense;
-import com.rovearound.tripplanner.entities.TripNotes;
-import com.rovearound.tripplanner.entities.Trip;
-import com.rovearound.tripplanner.entities.User;
+import com.rovearound.tripplanner.entities.TripLocationNotes;
 
 
 public class TripLocationDto {
 	private int id;
-    private User user;
-    private TripNotes notes;
-    private Expense expense;
+    private int userId;
     private String googleResponse;
     private int position;
-    private Trip trip;
-    public Trip getTrip() {
-		return trip;
-	}
-	public void setTrip(Trip tripId) {
-		this.trip = tripId;
-	}
+    private int tripId;
 	private boolean status;
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	
+	public int getTripId() {
+		return tripId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
 	}
-	public TripNotes getNotes() {
-		return notes;
+	public int getUserId() {
+		return userId;
 	}
-	public void setNotes(TripNotes notes) {
-		this.notes = notes;
-	}
-	public Expense getExpense() {
-		return expense;
-	}
-	public void setExpense(Expense expense) {
-		this.expense = expense;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getGoogleResponse() {
 		return googleResponse;

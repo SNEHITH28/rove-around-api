@@ -43,8 +43,8 @@ public class TravelerServiceImplementation implements TravelerService {
 		Traveler traveler = this.travelerRepository.findById(travelerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Traveler", "Id", travelerId));
 		
-		traveler.setId(travelerDto.getTravelerId());
-		traveler.setTrip(travelerDto.getTrip());
+		traveler.setId(travelerDto.getId());
+//		traveler.setTrip(travelerDto.getTrip());
 		traveler.setUser(travelerDto.getUser());
 		traveler.setStatus(true);
 
@@ -85,7 +85,7 @@ public class TravelerServiceImplementation implements TravelerService {
 		List<TravelerDto> allTravelers = this.getAllTravelers();
 		List<UserDto> users = new ArrayList<UserDto>();
 		allTravelers.forEach((traveler) -> {
-			if (traveler.getTrip().getId() == tripId && traveler.isStatus()) {
+			if (traveler.getTripId() == tripId && traveler.isStatus()) {
 				int userId = traveler.getUser().getId();
 				users.add(userService.getUser(userId));
 			}

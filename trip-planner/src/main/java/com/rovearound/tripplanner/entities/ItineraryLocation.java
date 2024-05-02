@@ -18,21 +18,11 @@ public class ItineraryLocation {
     private int id;
 
     // Ref: location.userId > users.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
-
-    // Ref: location.noteId > notes.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "noteId")
-    private TripNotes notes;
-
-    // Ref: location.expenseId > expenses.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "expenseId")
-    private Expense expense;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "itineraryId")
     private Itinerary itinerary;
     
@@ -51,18 +41,6 @@ public class ItineraryLocation {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public TripNotes getNotes() {
-		return notes;
-	}
-	public void setNotes(TripNotes notes) {
-		this.notes = notes;
-	}
-	public Expense getExpense() {
-		return expense;
-	}
-	public void setExpense(Expense expense) {
-		this.expense = expense;
 	}
 	public Itinerary getItinerary() {
 		return itinerary;

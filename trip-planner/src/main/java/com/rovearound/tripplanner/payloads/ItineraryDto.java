@@ -13,21 +13,22 @@ import lombok.Setter;
 @Setter
 public class ItineraryDto {
 
-	private int itineraryId;
-    private Trip trip;
+	private int id;
+    private int tripId;
     private Date date;
     private boolean status;
-	public int getItineraryId() {
-		return itineraryId;
+	public int getId() {
+		return id;
 	}
-	public void setItineraryId(int itineraryId) {
-		this.itineraryId = itineraryId;
+	public void setId(int itineraryId) {
+		this.id = itineraryId;
 	}
-	public Trip getTrip() {
-		return trip;
+	
+	public int getTripId() {
+		return tripId;
 	}
-	public void setTrip(Trip trip) {
-		this.trip = trip;
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
 	}
 	public Date getDate() {
 		return date;

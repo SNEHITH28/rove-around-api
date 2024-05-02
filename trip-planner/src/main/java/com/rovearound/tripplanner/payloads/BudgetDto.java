@@ -1,7 +1,5 @@
 package com.rovearound.tripplanner.payloads;
 
-import com.rovearound.tripplanner.entities.Trip;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,21 +8,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BudgetDto {
-	private int budgetId;
-	private Trip trip;
+	private int id;
+	private int tripId;
 	private float amount;
 	private boolean status;
-	public int getBudgetId() {
-		return budgetId;
+	public int getId() {
+		return id;
 	}
-	public void setBudgetId(int budgetId) {
-		this.budgetId = budgetId;
+	public void setId(int budgetId) {
+		this.id = budgetId;
 	}
-	public Trip getTrip() {
-		return trip;
+
+	public int getTripId() {
+		return tripId;
 	}
-	public void setTrip(Trip trip) {
-		this.trip = trip;
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
 	}
 	public float getAmount() {
 		return amount;

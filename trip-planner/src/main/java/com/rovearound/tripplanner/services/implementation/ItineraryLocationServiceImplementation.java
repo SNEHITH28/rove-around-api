@@ -8,11 +8,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rovearound.tripplanner.entities.Itinerary;
 import com.rovearound.tripplanner.entities.ItineraryLocation;
 import com.rovearound.tripplanner.exceptions.ResourceNotFoundException;
+import com.rovearound.tripplanner.payloads.ItineraryDto;
 import com.rovearound.tripplanner.payloads.ItineraryLocationDto;
 import com.rovearound.tripplanner.repositories.ItineraryLocationRepository;
 import com.rovearound.tripplanner.services.ItineraryLocationService;
+import com.rovearound.tripplanner.services.ItineraryService;
 
 @Service
 public class ItineraryLocationServiceImplementation implements ItineraryLocationService {
@@ -21,11 +24,16 @@ public class ItineraryLocationServiceImplementation implements ItineraryLocation
 	private ItineraryLocationRepository itineraryLocationRepository;
 	
 	@Autowired
+	private ItineraryService itineraryService;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
 	public ItineraryLocationDto createItineraryLocation(ItineraryLocationDto itineraryLocationDto) {
 		ItineraryLocation itineraryLocation = this.dtoToItineraryLocation(itineraryLocationDto);
+		ItineraryDto i = itineraryService.getItinerary(itineraryLocationDto.getItineraryId());
+		itineraryLocation.setItinerary(this.modelMapper.map(i, Itinerary.class));
 		ItineraryLocation savedItineraryLocation = this.itineraryLocationRepository.save(itineraryLocation);
 		return this.itineraryLocationToDto(savedItineraryLocation);
 	}
@@ -36,8 +44,8 @@ public class ItineraryLocationServiceImplementation implements ItineraryLocation
 				.orElseThrow(() -> new ResourceNotFoundException("ItineraryLocation", "Id", itineraryLocationId));
 		
 		itineraryLocation.setId(itineraryLocationDto.getId());
-		itineraryLocation.setItinerary(itineraryLocationDto.getItinerary());
-		itineraryLocation.setUser(itineraryLocationDto.getUser());
+//		itineraryLocation.setItinerary(itineraryLocationDto.getItinerary());
+//		itineraryLocation.setUser(itineraryLocationDto.getUser());
 		itineraryLocation.setStatus(true);
 
 		ItineraryLocation updatedItineraryLocation = this.itineraryLocationRepository.save(itineraryLocation);
@@ -76,7 +84,7 @@ public class ItineraryLocationServiceImplementation implements ItineraryLocation
 	public List<ItineraryLocationDto> getItineraryLocationsByItineraryId(Integer itineraryId) {
 		List<ItineraryLocationDto> allItineraryLocations = new ArrayList<>();
 		this.getAllItineraryLocations().forEach((itineraryLocation) -> {
-			if (itineraryLocation.getItinerary().getId() == itineraryId && itineraryLocation.isStatus()) {
+			if (itineraryLocation.getItineraryId() == itineraryId && itineraryLocation.isStatus()) {
 				allItineraryLocations.add(itineraryLocation);
 			}
 		});

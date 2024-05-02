@@ -35,8 +35,8 @@ public class TripLocationNotesServiceImplementation implements TripLocationNotes
 				.orElseThrow(() -> new ResourceNotFoundException("TripLocationNotes", "Id", tripLocationNotesId));
 		
 		tripLocationNotes.setId(tripLocationNotesDto.getId());
-		tripLocationNotes.setTripLocation(tripLocationNotesDto.getTripLocation());
-		tripLocationNotes.setUser(tripLocationNotesDto.getUser());
+//		tripLocationNotes.setTripLocation(tripLocationNotesDto.getTripLocation());
+//		tripLocationNotes.setUser(tripLocationNotesDto.getUser());
 		tripLocationNotes.setStatus(true);
 
 		TripLocationNotes updatedTripLocationNotes = this.tripLocationNotesRepository.save(tripLocationNotes);
@@ -69,17 +69,6 @@ public class TripLocationNotesServiceImplementation implements TripLocationNotes
 		tripLocationNotes.setStatus(false);
 		this.tripLocationNotesRepository.save(tripLocationNotes);
 
-	}
-	
-	@Override
-	public List<TripLocationNotesDto> getTripLocationNotesByTripLocationId(Integer tripLocationId) {
-		List<TripLocationNotesDto> allTripLocationNotes = new ArrayList<>();
-		this.getAllTripLocationNotes().forEach((tripLocationNotes) -> {
-			if (tripLocationNotes.getTripLocation().getId() == tripLocationId && tripLocationNotes.isStatus()) {
-				allTripLocationNotes.add(tripLocationNotes);
-			}
-		});
-		return allTripLocationNotes;
 	}
 	
 	private TripLocationNotes dtoToTripLocationNotes(TripLocationNotesDto tripLocationNotesDto) {

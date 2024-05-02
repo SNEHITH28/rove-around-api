@@ -24,23 +24,17 @@ public class TripLocation {
     private int id;
 
     // Ref: location.userId > users.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
-
-    // Ref: location.noteId > notes.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "noteId")
-    private TripNotes notes;
-
-    // Ref: location.expenseId > expenses.id // many-to-one
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "expenseId")
-    private Expense expense;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tripId")
     private Trip trip;
+    
+	private String googleResponse;
+    private int position;
+    private boolean status;
 
     public Trip getTrip() {
 		return trip;
@@ -48,9 +42,6 @@ public class TripLocation {
 	public void setTrip(Trip trip) {
 		this.trip = trip;
 	}
-	private String googleResponse;
-    private int position;
-    private boolean status;
 	public int getId() {
 		return id;
 	}
@@ -62,18 +53,6 @@ public class TripLocation {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public TripNotes getNotes() {
-		return notes;
-	}
-	public void setNotes(TripNotes notes) {
-		this.notes = notes;
-	}
-	public Expense getExpense() {
-		return expense;
-	}
-	public void setExpense(Expense expense) {
-		this.expense = expense;
 	}
 	public String getGoogleResponse() {
 		return googleResponse;

@@ -35,13 +35,13 @@ public class ExpenseServiceImplementation implements ExpenseService {
 		Expense expense = this.expenseRepository.findById(expenseId)
 				.orElseThrow(() -> new ResourceNotFoundException("Expense", "Id", expenseId));
 		
-		expense.setId(expenseDto.getExpenseId());
+		expense.setId(expenseDto.getId());
 		expense.setAmount(expenseDto.getAmount());
-		expense.setTrip(expenseDto.getTrip());
-		expense.setUser(expenseDto.getUser());
+//		expense.setTrip(expenseDto.getTrip());
+//		expense.setUser(expenseDto.getUser());
 		expense.setPaidOn(expenseDto.getPaidOn());
 		expense.setSplitType(expense.getSplitType());
-		expense.setCategory(expenseDto.getCategory());
+//		expense.setCategory(expenseDto.getCategory());
 		expense.setCategoryDescription(expenseDto.getCategoryDescription());
 		expense.setStatus(true);
 
@@ -81,7 +81,7 @@ public class ExpenseServiceImplementation implements ExpenseService {
 	public List<ExpenseDto> getExpenseByTripId(Integer tripId) {
 		List<ExpenseDto> expenses = new ArrayList<>();
 		this.getAllExpenses().forEach(el -> {
-			if(el.getTrip().getId() == tripId && el.isStatus()) {
+			if(el.getTripId() == tripId && el.isStatus()) {
 				expenses.add(el);
 			}
 		});

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rovearound.tripplanner.entities.Trip;
+import com.rovearound.tripplanner.entities.User;
+import com.rovearound.tripplanner.models.ItineraryDetails;
 import com.rovearound.tripplanner.models.TripDetails;
 import com.rovearound.tripplanner.payloads.ApiResponse;
 import com.rovearound.tripplanner.payloads.TripDto;
@@ -32,14 +35,19 @@ import com.rovearound.tripplanner.payloads.UserDto;
 import com.rovearound.tripplanner.payloads.BudgetDto;
 import com.rovearound.tripplanner.payloads.ExpenseDto;
 import com.rovearound.tripplanner.payloads.ItineraryDto;
+import com.rovearound.tripplanner.payloads.ItineraryLocationDto;
+import com.rovearound.tripplanner.payloads.ItineraryNotesDto;
 import com.rovearound.tripplanner.payloads.TravelerDto;
 import com.rovearound.tripplanner.services.BudgetService;
 import com.rovearound.tripplanner.services.ExpenseService;
+import com.rovearound.tripplanner.services.ItineraryLocationService;
+import com.rovearound.tripplanner.services.ItineraryNotesService;
 import com.rovearound.tripplanner.services.ItineraryService;
 import com.rovearound.tripplanner.services.TravelerService;
 import com.rovearound.tripplanner.services.TripLocationService;
 import com.rovearound.tripplanner.services.TripNotesService;
 import com.rovearound.tripplanner.services.TripService;
+import com.rovearound.tripplanner.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -69,11 +77,21 @@ public class TripController {
 	private TripNotesService tripNotesService;
 	
 	@Autowired
+	private ItineraryNotesService itineraryNotesService;
+	
+	@Autowired
+	private ItineraryLocationService itineraryLocationService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@PostMapping("/add")
 	public ResponseEntity<TripDto> createTrip(@Valid @RequestBody TripDto tripDto) {
 		tripDto.setTripCode(this.generateTripCode());
+		System.out.println("testing l" + tripDto.getUserId());
 		TripDto createdTripDto = this.tripService.createTrip(tripDto);
 		this.createInitialBudgetForTrip(createdTripDto);
 		this.createInitialItineraryForTrip(createdTripDto);
@@ -99,7 +117,7 @@ public class TripController {
 	}
 
 	@GetMapping("/{tripId}")
-	public ResponseEntity<TripDto> getTrip(@PathVariable Integer tripId) {
+	public ResponseEntity<TripDetails> getTrip(@PathVariable Integer tripId) {
 		TripDto tripResponse = this.tripService.getTrip(tripId);
 		List<UserDto> travelers = travelerService.getUsersByTravelerId(tripId);
 		List<ItineraryDto> itineraries = itineraryService.getItineraryByTripId(tripId);
@@ -109,17 +127,32 @@ public class TripController {
 		List<TripNotesDto> tripNotes = tripNotesService.getTripNotesByTripId(tripId);
 		
 		TripDetails tripDetails = new TripDetails();
+		List<ItineraryDetails> itineraryDetails = new ArrayList<ItineraryDetails>();
+		itineraries.forEach(el -> {
+			List<ItineraryNotesDto> itineraryNotes = itineraryNotesService.getItineraryNotesByItineraryId(el.getId());
+			List<ItineraryLocationDto> itineraryLocations = itineraryLocationService.getItineraryLocationsByItineraryId(el.getId());
+			
+			ItineraryDetails itineraryDetail = new ItineraryDetails();
+			itineraryDetail.setItineraryNotes(itineraryNotes);
+			itineraryDetail.setItineraryLocations(itineraryLocations);
+			itineraryDetail.setItineraryId(el.getId());
+			itineraryDetail.setStatus(el.isStatus());
+			itineraryDetail.setDate(el.getDate());
+			itineraryDetail.setTripId(tripId);
+			
+			itineraryDetails.add(itineraryDetail);
+		});
 		
 		tripDetails.setTrip(tripResponse);
 		tripDetails.setTravelers(travelers);
-		tripDetails.setItineraries(itineraries);
+		tripDetails.setItineraries(itineraryDetails);
 		tripDetails.setTripLocations(tripLocations);
 		tripDetails.setBudget(budget);
 		tripDetails.setExpenses(expenses);
 		tripDetails.setTripNotes(tripNotes);
 		
 		
-		return ResponseEntity.ok(this.tripService.getTrip(tripId));
+		return ResponseEntity.ok(tripDetails);
 	}
 	
 	private void createInitialBudgetForTrip(TripDto createdTripDto) {
@@ -127,7 +160,7 @@ public class TripController {
 		
 		budgetDtoForCreatedTrip.setAmount(0);
 		budgetDtoForCreatedTrip.setStatus(true);
-		budgetDtoForCreatedTrip.setTrip(this.dtoToTrip(createdTripDto));
+		budgetDtoForCreatedTrip.setTripId(createdTripDto.getId());
 		this.budgetService.createBudget(budgetDtoForCreatedTrip);
 	}
 	
@@ -136,18 +169,18 @@ public class TripController {
 		
 		expenseDtoForCreatedTrip.setAmount(0);
 		expenseDtoForCreatedTrip.setStatus(true);
-		expenseDtoForCreatedTrip.setTrip(this.dtoToTrip(createdTripDto));
-		expenseDtoForCreatedTrip.setUser(createdTripDto.getUser());
+		expenseDtoForCreatedTrip.setTripId(createdTripDto.getId());
+		expenseDtoForCreatedTrip.setUserId(createdTripDto.getUserId());
 		expenseDtoForCreatedTrip.setPaidOn(null);
 		expenseDtoForCreatedTrip.setSplitType("");
-		expenseDtoForCreatedTrip.setCategory(null);
+		expenseDtoForCreatedTrip.setCategoryId(0);
 		expenseDtoForCreatedTrip.setCategoryDescription("");
 		this.expenseService.createExpense(expenseDtoForCreatedTrip);
 	}
 	
 	private void createInitialItineraryForTrip(TripDto createdTripDto) {
 		ItineraryDto itineraryDtoForCreatedTrip = new ItineraryDto();
-        itineraryDtoForCreatedTrip.setTrip(this.dtoToTrip(createdTripDto));
+        itineraryDtoForCreatedTrip.setTripId(createdTripDto.getId());
         itineraryDtoForCreatedTrip.setStatus(true);
 
         // Define the custom date-time formatter
@@ -174,14 +207,20 @@ public class TripController {
 		TravelerDto travelerDtoForCreatedTrip = new TravelerDto();
 		
 		travelerDtoForCreatedTrip.setStatus(true);
-		travelerDtoForCreatedTrip.setTrip(this.dtoToTrip(createdTripDto));
-		travelerDtoForCreatedTrip.setUser(createdTripDto.getUser());
+		travelerDtoForCreatedTrip.setTripId(createdTripDto.getId());
+		UserDto user = userService.getUser(createdTripDto.getUserId());
+		travelerDtoForCreatedTrip.setUser(this.dtoToUser(user));
 		this.travelerService.createTraveler(travelerDtoForCreatedTrip);
 	}
 	
 	private Trip dtoToTrip(TripDto tripDto) {
 		Trip trip = this.modelMapper.map(tripDto, Trip.class);
 		return trip;
+	}
+	
+	private User dtoToUser(UserDto userDto) {
+		User user = this.modelMapper.map(userDto, User.class);
+		return user;
 	}
 	
 	private String generateTripCode() {

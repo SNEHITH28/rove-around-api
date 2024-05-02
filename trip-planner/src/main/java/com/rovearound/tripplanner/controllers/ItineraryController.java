@@ -61,7 +61,7 @@ public class ItineraryController {
 		ResponseEntity<List<ItineraryDto>> itinerarysResponseEntity = this.getAllItinerarys();
 		List<ItineraryDto> allItinerarys = itinerarysResponseEntity.getBody();
 		allItinerarys.forEach(itinerary -> {
-			if (itinerary.getTrip().getId() == tripId && itinerary.isStatus()) {
+			if (itinerary.getTripId() == tripId && itinerary.isStatus()) {
 				itinerarys.add(itinerary);
 			}
 		});
