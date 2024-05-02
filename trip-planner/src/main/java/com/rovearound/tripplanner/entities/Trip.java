@@ -2,6 +2,7 @@ package com.rovearound.tripplanner.entities;
 
 import java.util.Date;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,10 +29,12 @@ public class Trip {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
+    
+    @Column(length = 20000)
+    private String googleResponse;
 
     private String tripCode;
     private String destination;
-    private String googleResponse;
     private Date startDate;
     private Date endDate;
     private int createdBy;
