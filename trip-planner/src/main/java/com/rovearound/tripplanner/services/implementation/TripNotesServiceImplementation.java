@@ -9,15 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rovearound.tripplanner.entities.TripNotes;
+import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.exceptions.ResourceNotFoundException;
 import com.rovearound.tripplanner.payloads.TripNotesDto;
 import com.rovearound.tripplanner.repositories.TripNotesRepository;
 import com.rovearound.tripplanner.services.TripNotesService;
+import com.rovearound.tripplanner.services.TripService;
+import com.rovearound.tripplanner.services.UserService;
 
 @Service
 public class TripNotesServiceImplementation implements TripNotesService {
 	@Autowired
 	private TripNotesRepository tripNotesRepository;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -35,8 +41,9 @@ public class TripNotesServiceImplementation implements TripNotesService {
 				.orElseThrow(() -> new ResourceNotFoundException("TripNotes", "Id", tripNotesId));
 		
 		tripNotes.setId(tripNotesDto.getId());
-//		tripNotes.setTrip(tripNotesDto.getTrip());
-//		tripNotes.setUser(tripNotesDto.getUser());
+		tripNotes.setUpdatedBy(tripNotesDto.getUpdatedBy());
+		tripNotes.setUpdatedOn(tripNotesDto.getUpdatedOn());
+		tripNotes.setNote(tripNotesDto.getNote());
 		tripNotes.setStatus(true);
 
 		TripNotes updatedTripNotes = this.tripNotesRepository.save(tripNotes);

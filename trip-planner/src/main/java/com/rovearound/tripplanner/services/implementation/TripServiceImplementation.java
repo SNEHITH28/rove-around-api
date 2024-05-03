@@ -116,7 +116,7 @@ public class TripServiceImplementation implements TripService{
 	public TripDetails getTripByTripCode(String tripCode) {
 		List<TripDto> trips = new ArrayList<TripDto>();
 		this.getAllTrips().forEach(el -> {
-			if(el.getTripCode().equals(tripCode)) {
+			if(el.getTripCode() != null && el.getTripCode().equals(tripCode)) {
 				trips.add(el);
 			}
 		});
