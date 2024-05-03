@@ -11,6 +11,7 @@ public interface TripService {
 	TripDto updateTrip(TripDto trip, Integer tripId);
 	TripDto getTrip(Integer tripId);
 	TripDetails getTripByTripCode(String tripCode);
+	TripDto getTripByTripCodeForTraveler(String tripCode);
 	List<TripDto> getAllTrips();
 	void deleteTrip(Integer tripId);
 

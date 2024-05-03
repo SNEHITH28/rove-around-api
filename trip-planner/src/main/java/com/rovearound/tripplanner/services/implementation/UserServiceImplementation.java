@@ -93,6 +93,14 @@ public class UserServiceImplementation implements UserService {
 		return this.modelMapper.map(newUser, UserDto.class);
 	}
 	
+	@Override
+	public UserDto getUserByUsername(String username) {
+	    return this.getAllUsers().stream()
+	            .filter(user -> user.getUserName().equals(username))
+	            .findFirst()
+	            .orElse(null);
+	}
+	
 	private User dtoToUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class);
 		return user;
