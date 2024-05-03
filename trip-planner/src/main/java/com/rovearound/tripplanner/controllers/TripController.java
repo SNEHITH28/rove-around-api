@@ -124,7 +124,7 @@ public class TripController {
 		List<TravelerDto> travelers = this.travelerService.getAllTravelers();
 		trips.forEach(trip -> {
 			travelers.forEach(traveler -> {
-				if (trip.isStatus() && traveler.getUser().getId() == userId && traveler.isStatus()) {
+				if (trip.getId() == traveler.getTripId() &&  trip.isStatus() && traveler.getUser().getId() == userId && traveler.isStatus()) {
 					TripDetails tripDetails = tripService.getTripByTripCode(trip.getTripCode());
 					if (tripDetails != null) {						
 						int numberOfPlaces = tripDetails.getTripLocations().size();
