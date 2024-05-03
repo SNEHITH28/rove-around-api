@@ -11,8 +11,26 @@ import org.springframework.stereotype.Service;
 import com.rovearound.tripplanner.entities.Trip;
 import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.exceptions.ResourceNotFoundException;
+import com.rovearound.tripplanner.models.ItineraryDetails;
+import com.rovearound.tripplanner.models.TripDetails;
+import com.rovearound.tripplanner.payloads.BudgetDto;
+import com.rovearound.tripplanner.payloads.ExpenseDto;
+import com.rovearound.tripplanner.payloads.ItineraryDto;
+import com.rovearound.tripplanner.payloads.ItineraryLocationDto;
+import com.rovearound.tripplanner.payloads.ItineraryNotesDto;
 import com.rovearound.tripplanner.payloads.TripDto;
+import com.rovearound.tripplanner.payloads.TripLocationDto;
+import com.rovearound.tripplanner.payloads.TripNotesDto;
+import com.rovearound.tripplanner.payloads.UserDto;
 import com.rovearound.tripplanner.repositories.TripRepository;
+import com.rovearound.tripplanner.services.BudgetService;
+import com.rovearound.tripplanner.services.ExpenseService;
+import com.rovearound.tripplanner.services.ItineraryLocationService;
+import com.rovearound.tripplanner.services.ItineraryNotesService;
+import com.rovearound.tripplanner.services.ItineraryService;
+import com.rovearound.tripplanner.services.TravelerService;
+import com.rovearound.tripplanner.services.TripLocationService;
+import com.rovearound.tripplanner.services.TripNotesService;
 import com.rovearound.tripplanner.services.TripService;
 import com.rovearound.tripplanner.services.UserService;
 
@@ -23,6 +41,30 @@ public class TripServiceImplementation implements TripService{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ItineraryService itineraryService;
+	
+	@Autowired
+	private BudgetService budgetService;
+	
+	@Autowired
+	private ExpenseService expenseService;
+	
+	@Autowired
+	private TravelerService travelerService;
+	
+	@Autowired
+	private TripLocationService tripLocationService;
+	
+	@Autowired
+	private TripNotesService tripNotesService;
+	
+	@Autowired
+	private ItineraryNotesService itineraryNotesService;
+	
+	@Autowired
+	private ItineraryLocationService itineraryLocationService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -71,14 +113,51 @@ public class TripServiceImplementation implements TripService{
 	}
 	
 	@Override
-	public TripDto getTripByTripCode(String tripCode) {
-		List<TripDto> trip = new ArrayList<TripDto>();
+	public TripDetails getTripByTripCode(String tripCode) {
+		List<TripDto> trips = new ArrayList<TripDto>();
 		this.getAllTrips().forEach(el -> {
 			if(el.getTripCode().equals(tripCode)) {
-				trip.add(el);
+				trips.add(el);
 			}
 		});
-		return trip.get(0);
+		if (trips.size() == 1) {	
+			TripDto trip = trips.get(0);
+			int tripId = trip.getId();
+			TripDto tripResponse = this.getTrip(tripId);
+			List<UserDto> travelers = travelerService.getUsersByTravelerId(tripId);
+			List<ItineraryDto> itineraries = itineraryService.getItineraryByTripId(tripId);
+			List<TripLocationDto> tripLocations = tripLocationService.getTripLocationsByTripId(tripId);
+			BudgetDto budget = budgetService.getBudgetByTripId(tripId);
+			List<ExpenseDto> expenses = expenseService.getExpenseByTripId(tripId);
+			List<TripNotesDto> tripNotes = tripNotesService.getTripNotesByTripId(tripId);
+			
+			TripDetails tripDetails = new TripDetails();
+			List<ItineraryDetails> itineraryDetails = new ArrayList<ItineraryDetails>();
+			itineraries.forEach(el -> {
+				List<ItineraryNotesDto> itineraryNotes = itineraryNotesService.getItineraryNotesByItineraryId(el.getId());
+				List<ItineraryLocationDto> itineraryLocations = itineraryLocationService.getItineraryLocationsByItineraryId(el.getId());
+				
+				ItineraryDetails itineraryDetail = new ItineraryDetails();
+				itineraryDetail.setItineraryNotes(itineraryNotes);
+				itineraryDetail.setItineraryLocations(itineraryLocations);
+				itineraryDetail.setItineraryId(el.getId());
+				itineraryDetail.setStatus(el.isStatus());
+				itineraryDetail.setDate(el.getDate());
+				itineraryDetail.setTripId(tripId);
+				
+				itineraryDetails.add(itineraryDetail);
+			});
+			
+			tripDetails.setTrip(tripResponse);
+			tripDetails.setTravelers(travelers);
+			tripDetails.setItineraries(itineraryDetails);
+			tripDetails.setTripLocations(tripLocations);
+			tripDetails.setBudget(budget);
+			tripDetails.setExpenses(expenses);
+			tripDetails.setTripNotes(tripNotes);
+			return tripDetails;
+		}
+		return null;
 	}
 
 	@Override

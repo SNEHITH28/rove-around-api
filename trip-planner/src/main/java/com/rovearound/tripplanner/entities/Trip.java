@@ -30,11 +30,13 @@ public class Trip {
     @JoinColumn(name = "userId")
     private User user;
     
-    @Column(length = 20000)
+    @Column(length = 30000)
     private String googleResponse;
 
-    private String tripCode;
+    @Column(length = 30000)
     private String destination;
+
+    private String tripCode;
     private Date startDate;
     private Date endDate;
     private int createdBy;
