@@ -2,6 +2,7 @@ package com.rovearound.tripplanner.controllers;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rovearound.tripplanner.entities.User;
 import com.rovearound.tripplanner.payloads.ApiResponse;
 import com.rovearound.tripplanner.payloads.TravelerDto;
+import com.rovearound.tripplanner.payloads.TravelerRequest;
+import com.rovearound.tripplanner.payloads.TripDto;
 import com.rovearound.tripplanner.services.TravelerService;
+import com.rovearound.tripplanner.services.TripService;
+import com.rovearound.tripplanner.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -27,11 +33,28 @@ public class TravelerController {
 
 	@Autowired
 	private TravelerService travelerService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private TripService tripService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@PostMapping("/add")
-	public ResponseEntity<TravelerDto> createTraveler(@Valid @RequestBody TravelerDto travelerDto) {
-		TravelerDto createdTravelerDto = this.travelerService.createTraveler(travelerDto);
-		return new ResponseEntity<>(createdTravelerDto, HttpStatus.CREATED);
+	public ResponseEntity<?> createTraveler(@Valid @RequestBody TravelerRequest travelerRequest) {
+		TripDto trip = this.tripService.getTripByTripCodeForTraveler(travelerRequest.getTripCode());
+		if(this.userService.getUser(travelerRequest.getUser().getUserId()) != null) {
+			TravelerDto travelerDto = new TravelerDto();
+			travelerDto.setStatus(true);
+			travelerDto.setTripId(trip.getId());
+			travelerDto.setUser(this.modelMapper.map(travelerRequest.getUser(), User.class));
+			TravelerDto createdTravelerDto = this.travelerService.createTraveler(travelerDto);
+			return new ResponseEntity<>(createdTravelerDto, HttpStatus.CREATED);	
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpStatus.NOT_FOUND.value());
 	}
 
 	@PutMapping("/{travelerId}")

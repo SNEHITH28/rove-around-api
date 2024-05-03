@@ -23,7 +23,7 @@ public class Traveler {
     private int id;
 
     // Ref: travelers.userId > users.id // many-to-one
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne()
     @JoinColumn(name = "userId")
     private User user;
 

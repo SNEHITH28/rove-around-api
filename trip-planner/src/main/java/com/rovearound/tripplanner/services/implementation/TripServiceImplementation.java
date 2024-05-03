@@ -175,7 +175,17 @@ public class TripServiceImplementation implements TripService{
 		
 		trip.setStatus(false);
 		this.tripRepository.save(trip);
-
+	}
+	
+	@Override
+	public TripDto getTripByTripCodeForTraveler(String tripCode) {
+		List<TripDto> trips = new ArrayList<TripDto>();
+		this.getAllTrips().forEach(el -> {
+			if(el.getTripCode() != null && el.getTripCode().equals(tripCode)) {
+				trips.add(el);
+			}
+		});
+		return trips.get(0);
 	}
 	
 	private Trip dtoToTrip(TripDto tripDto) {

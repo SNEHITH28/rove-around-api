@@ -81,6 +81,9 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
 		if(this.userRepository.findByEmail(userDto.getEmail()).isEmpty()) {
+			if(this.userService.getUserByUsername(userDto.getUserName()) != null) {
+				return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(HttpStatus.ALREADY_REPORTED.value());
+			}
 			UserDto registeredUser = this.userService.registerNewUser(userDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());
 	    }
