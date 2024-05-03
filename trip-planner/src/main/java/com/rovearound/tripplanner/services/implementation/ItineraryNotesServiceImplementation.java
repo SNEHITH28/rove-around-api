@@ -35,8 +35,9 @@ public class ItineraryNotesServiceImplementation implements ItineraryNotesServic
 				.orElseThrow(() -> new ResourceNotFoundException("ItineraryNotes", "Id", itineraryNotesId));
 		
 		itineraryNotes.setId(itineraryNotesDto.getId());
-//		itineraryNotes.setItinerary(itineraryNotesDto.getItinerary());
-//		itineraryNotes.setUser(itineraryNotesDto.getUser());
+		itineraryNotes.setUpdatedBy(itineraryNotesDto.getUpdatedBy());
+		itineraryNotes.setUpdatedOn(itineraryNotesDto.getUpdatedOn());
+		itineraryNotes.setNote(itineraryNotesDto.getNote());
 		itineraryNotes.setStatus(true);
 
 		ItineraryNotes updatedItineraryNotes = this.itineraryNotesRepository.save(itineraryNotes);

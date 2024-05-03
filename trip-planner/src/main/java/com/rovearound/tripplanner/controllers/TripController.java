@@ -126,20 +126,24 @@ public class TripController {
 			travelers.forEach(traveler -> {
 				if (trip.isStatus() && traveler.getUser().getId() == userId && traveler.isStatus()) {
 					TripDetails tripDetails = tripService.getTripByTripCode(trip.getTripCode());
-					int numberOfPlaces = tripDetails.getTripLocations().size();
-					for(ItineraryDetails el: tripDetails.getItineraries()) {
-						numberOfPlaces += el.getItineraryLocations().size();
-					};
-					TripInfo tripInfo = new TripInfo();
-					tripInfo.setId(trip.getId());
-					tripInfo.setDestination(trip.getDestination());
-					tripInfo.setGoogleResponse(trip.getGoogleResponse());
-					tripInfo.setStartDate(trip.getStartDate());
-					tripInfo.setEndDate(trip.getEndDate());
-					tripInfo.setNumberOfUsers(tripDetails.getTravelers().size());
-					tripInfo.setBudget(tripDetails.getBudget().getAmount());
-					tripInfo.setNumberOfPlaces(numberOfPlaces);
-					
+					if (tripDetails != null) {						
+						int numberOfPlaces = tripDetails.getTripLocations().size();
+						for(ItineraryDetails el: tripDetails.getItineraries()) {
+							numberOfPlaces += el.getItineraryLocations().size();
+						};
+						TripInfo tripInfo = new TripInfo();
+						tripInfo.setId(trip.getId());
+						tripInfo.setTripCode(trip.getTripCode());
+						tripInfo.setDestination(trip.getDestination());
+						tripInfo.setGoogleResponse(trip.getGoogleResponse());
+						tripInfo.setStartDate(trip.getStartDate());
+						tripInfo.setEndDate(trip.getEndDate());
+						tripInfo.setNumberOfUsers(tripDetails.getTravelers().size());
+						tripInfo.setBudget(tripDetails.getBudget().getAmount());
+						tripInfo.setNumberOfPlaces(numberOfPlaces);
+						
+						tripInfos.add(tripInfo);
+					}		
 				}
 			});
 		});

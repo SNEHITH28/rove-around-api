@@ -2,6 +2,7 @@ package com.rovearound.tripplanner.entities;
 
 import java.util.Date;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,11 @@ public class Trip {
     private User user;
 
     private String tripCode;
+    
+    @Column(length = 30000)
     private String destination;
+    
+    @Column(length = 30000)
     private String googleResponse;
     private Date startDate;
     private Date endDate;

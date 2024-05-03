@@ -1,6 +1,7 @@
 package com.rovearound.tripplanner.entities;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class TripLocation {
     @JoinColumn(name = "tripId")
     private Trip trip;
     
+    @Column(length = 30000)
 	private String googleResponse;
     private int position;
     private boolean status;
