@@ -20,6 +20,7 @@ import com.rovearound.tripplanner.payloads.ApiResponse;
 import com.rovearound.tripplanner.payloads.TravelerDto;
 import com.rovearound.tripplanner.payloads.TravelerRequest;
 import com.rovearound.tripplanner.payloads.TripDto;
+import com.rovearound.tripplanner.payloads.UserDto;
 import com.rovearound.tripplanner.services.TravelerService;
 import com.rovearound.tripplanner.services.TripService;
 import com.rovearound.tripplanner.services.UserService;
@@ -46,6 +47,11 @@ public class TravelerController {
 	@PostMapping("/add")
 	public ResponseEntity<?> createTraveler(@Valid @RequestBody TravelerRequest travelerRequest) {
 		TripDto trip = this.tripService.getTripByTripCodeForTraveler(travelerRequest.getTripCode());
+		for(UserDto el : this.travelerService.getUsersByTravelerId(trip.getId())) {
+			if(el.getUserId() == travelerRequest.getUser().getUserId()) {
+				return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(HttpStatus.ALREADY_REPORTED.value());
+			}
+		}
 		if(this.userService.getUser(travelerRequest.getUser().getUserId()) != null) {
 			TravelerDto travelerDto = new TravelerDto();
 			travelerDto.setStatus(true);

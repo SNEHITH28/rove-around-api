@@ -92,7 +92,6 @@ public class TripController {
 	@PostMapping("/add")
 	public ResponseEntity<TripDto> createTrip(@Valid @RequestBody TripDto tripDto) {
 		tripDto.setTripCode(this.generateTripCode());
-		System.out.println("testing l" + tripDto.getUserId());
 		TripDto createdTripDto = this.tripService.createTrip(tripDto);
 		this.createInitialBudgetForTrip(createdTripDto);
 		this.createInitialItineraryForTrip(createdTripDto);

@@ -31,7 +31,8 @@ import com.rovearound.tripplanner.security.SecureUserService;
 public class SecurityConfiguration {
 	
 	public static final String[] PUBLIC_URLS = {"/api/v1/auth/**","/api/trip/**", "/api/expense/**",
-			"/api/budget/**", "/api/trip-notes/**", "/api/itinerary-notes/**", "/api/trip-locations/**", "/api/itinerary-locations/**"
+			"/api/budget/**", "/api/trip-notes/**", "/api/itinerary-notes/**", "/api/trip-locations/**", 
+			"/api/itinerary-locations/**", "/api/traveler/**"
     };
 	
 	@Autowired
